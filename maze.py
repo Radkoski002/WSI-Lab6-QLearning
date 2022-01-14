@@ -1,8 +1,10 @@
 import random
 
+random.seed(100)
+
 
 def generateLabyrinth(size, ratio):
-    maze = [[' ' for i in range(size)] for j in range(size)]
+    maze = [[' ' for _ in range(size)] for __ in range(size)]
     for i in range(int((size ** 2) * ratio)):
         maze[random.randint(0, size - 1)][random.randint(0, size - 1)] = 'x'
     maze[0][0] = ' '
