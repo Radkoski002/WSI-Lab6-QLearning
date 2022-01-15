@@ -34,34 +34,25 @@ def generateGraph(maze):
     return mazeGraph
 
 
-def bfs(visited, graph, node, target):
-    visited.append(node)
-    queue.append(node)
-
-    while queue:
-        s = queue.pop(0)
-        if s == target:
-            return True
-
-        for neighbour in graph[s]:
-            if neighbour not in visited:
-                visited.append(neighbour)
-                queue.append(neighbour)
-
+def dfs(visited, graph, node, target):
+    if node == target:
+        return True
+    if node not in visited:
+        visited.add(node)
+        for neighbour in graph[node]:
+            if dfs(visited, graph, neighbour, target):
+                return True
+            else:
+                continue
     return False
-
-
-queue = []
-visited = []
 
 
 def generateValidMaze(size, ratio):
     isMazeValid = False
     maze = []
     while not isMazeValid:
-        queue.clear()
-        visited.clear()
+        visited = set()
         maze = generateLabyrinth(size, ratio)
         graph = generateGraph(maze)
-        isMazeValid = bfs(visited, graph, 0, size ** 2 - 1)
+        isMazeValid = dfs(visited, graph, 0, size ** 2 - 1)
     return maze
