@@ -21,8 +21,8 @@ def generateBoard(maze, rSize, screen):
                 pygame.draw.rect(screen, black, square)
 
 
-def Visualize(size, ratio):
-    maze = generateValidMaze(size, ratio)
+def Visualize(size, ratio, startX, startY, finishX, finishY):
+    maze = generateValidMaze(size, ratio, startX, startY, finishX, finishY)
     size = width, height = 800, 800
     rSize = int(width / (len(maze) + 2))
 
@@ -37,7 +37,8 @@ def Visualize(size, ratio):
     pygame.time.set_timer(RECTEVENT, 100)
 
     square = [rSize, rSize, rSize, rSize]
-    row = col = 0
+    row = startX
+    col = startY
     while 1:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -49,7 +50,8 @@ def Visualize(size, ratio):
                     sys.exit()
                 if maze[row][col] == 'x':
                     generateBoard(maze, rSize, screen)
-                    row = col = 0
+                    row = startX
+                    col = startY
                     loseCounter += 1
                 generateBoard(maze, rSize, screen)
                 square = [rSize * (row + 1) + row, rSize * (col + 1) + col,

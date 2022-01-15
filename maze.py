@@ -3,12 +3,12 @@ import random
 random.seed(100)
 
 
-def generateLabyrinth(size, ratio):
+def generateLabyrinth(size, ratio, startX, startY, finishX, finishY):
     maze = [[' ' for _ in range(size)] for __ in range(size)]
     for i in range(int((size ** 2) * ratio)):
         maze[random.randint(0, size - 1)][random.randint(0, size - 1)] = 'x'
-    maze[0][0] = ' '
-    maze[size - 1][size - 1] = ' '
+    maze[startX][startY] = ' '
+    maze[finishX][finishY] = ' '
     return maze
 
 
@@ -37,6 +37,8 @@ def generateGraph(maze):
 def dfs(visited, graph, node, target):
     if node == target:
         return True
+    if len(graph[node]) == 0:
+        return False
     if node not in visited:
         visited.add(node)
         for neighbour in graph[node]:
@@ -47,12 +49,14 @@ def dfs(visited, graph, node, target):
     return False
 
 
-def generateValidMaze(size, ratio):
+def generateValidMaze(size, ratio, startX, startY, finishX, finishY):
     isMazeValid = False
     maze = []
+    start = startX * size + startY
+    finish = finishX * size + finishY
     while not isMazeValid:
         visited = set()
-        maze = generateLabyrinth(size, ratio)
+        maze = generateLabyrinth(size, ratio, startX, startY, finishX, finishY)
         graph = generateGraph(maze)
-        isMazeValid = dfs(visited, graph, 0, size ** 2 - 1)
+        isMazeValid = dfs(visited, graph, start, finish)
     return maze
