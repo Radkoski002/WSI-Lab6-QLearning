@@ -1,6 +1,5 @@
 import pygame
 import sys
-from maze import generateValidMaze
 from randomCar import randomCarMove
 
 white = (255, 255, 255)
@@ -13,7 +12,7 @@ yellow = (255, 255, 0)
 def generateBoard(maze, rSize, screen):
     for rowIndex, row in enumerate(maze):
         for fieldIndex, field in enumerate(row):
-            square = [rSize * (rowIndex + 1) + rowIndex, rSize * (fieldIndex + 1) + fieldIndex,
+            square = [rSize * (fieldIndex + 1) + fieldIndex, rSize * (rowIndex + 1) + rowIndex,
                       rSize, rSize]
             if field == 'x':
                 pygame.draw.rect(screen, red, square)
@@ -21,8 +20,7 @@ def generateBoard(maze, rSize, screen):
                 pygame.draw.rect(screen, black, square)
 
 
-def Visualize(size, ratio, startX, startY, finishX, finishY):
-    maze = generateValidMaze(size, ratio, startX, startY, finishX, finishY)
+def Visualize(maze, startX, startY, path=None):
     size = width, height = 800, 800
     rSize = int(width / (len(maze) + 2))
 
@@ -33,28 +31,28 @@ def Visualize(size, ratio, startX, startY, finishX, finishY):
 
     loseCounter = 0
 
-    RECTEVENT = pygame.USEREVENT + 1
-    pygame.time.set_timer(RECTEVENT, 100)
+    SLEEPEVENT = pygame.USEREVENT + 1
+    pygame.time.set_timer(SLEEPEVENT, 1000)
 
     square = [rSize, rSize, rSize, rSize]
     row = startX
     col = startY
+    visualBool = True
+    generateBoard(maze, rSize, screen)
     while 1:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            if event.type == RECTEVENT:
-                pygame.draw.rect(screen, black, square)
-                row, col = randomCarMove(row, col, len(maze))
-                if row == col == len(maze) - 1:
-                    sys.exit()
-                if maze[row][col] == 'x':
+            if event.type == SLEEPEVENT:
+                if path and visualBool:
+                    for point in path:
+                        pointX = point % len(maze)
+                        pointY = point // len(maze)
+                        square = [rSize * (pointX + 1) + pointX, rSize * (pointY + 1) + pointY,
+                                  rSize, rSize]
+                        pygame.draw.rect(screen, yellow, square)
+                        visualBool = False
+                else:
                     generateBoard(maze, rSize, screen)
-                    row = startX
-                    col = startY
-                    loseCounter += 1
-                generateBoard(maze, rSize, screen)
-                square = [rSize * (row + 1) + row, rSize * (col + 1) + col,
-                          rSize, rSize]
-                pygame.draw.rect(screen, yellow, square)
-                pygame.display.flip()
+                    visualBool = True
+        pygame.display.flip()

@@ -1,14 +1,14 @@
 import random
 
-random.seed(100)
+#random.seed(200)
 
 
 def generateLabyrinth(size, ratio, startX, startY, finishX, finishY):
     maze = [[' ' for _ in range(size)] for __ in range(size)]
     for i in range(int((size ** 2) * ratio)):
         maze[random.randint(0, size - 1)][random.randint(0, size - 1)] = 'x'
-    maze[startX][startY] = ' '
-    maze[finishX][finishY] = ' '
+    maze[startY][startX] = ' '
+    maze[finishY][finishX] = ' '
     return maze
 
 
@@ -52,8 +52,8 @@ def dfs(visited, graph, node, target):
 def generateValidMaze(size, ratio, startX, startY, finishX, finishY):
     isMazeValid = False
     maze = []
-    start = startX * size + startY
-    finish = finishX * size + finishY
+    start = startY * size + startX
+    finish = finishY * size + finishX
     while not isMazeValid:
         visited = set()
         maze = generateLabyrinth(size, ratio, startX, startY, finishX, finishY)
