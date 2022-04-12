@@ -1,5 +1,7 @@
 # Rozwiązywanie labiryntu za pomocą algorytmu QLearning
-Program generuje losowy kwadratowy labirynt (tak aby istniała ścieżka między początkiem, a końcem) i rozwiązuje go przy pomocy algorytmu Qleaning. 
+Program generuje losowy kwadratowy labirynt (tak aby istniała ścieżka między początkiem, a końcem) i rozwiązuje go przy pomocy algorytmu Qleaning.
+Aby program zaczął działać należy uruchomić plik main.py z ewentualnymi flagami zmieniającymi działanie programu
+### Znaczenie flag:
 - -s, --size - rozmiar labiryntu (size x size), domyślnie = 8
 - -mr, --maze-ratio - stosunek przeszkód do całej powierzchni labiryntu, domyślnie = 0.5
 - -sx, --start-x - współrzędna x punktu startowego, domyślnie = 0
