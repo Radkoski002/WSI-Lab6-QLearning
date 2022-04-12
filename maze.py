@@ -1,7 +1,5 @@
 import random
 
-#random.seed(200)
-
 
 def generateLabyrinth(size, ratio, startX, startY, finishX, finishY):
     maze = [[' ' for _ in range(size)] for __ in range(size)]
